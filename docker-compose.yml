@@ -1,0 +1,43 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: ./docker/backend/Dockerfile
+    image: ${DOCKER_PREFIX}-backend
+    container_name: ${DOCKER_PREFIX}-backend
+    ports:
+      - 3000:3000
+    restart: always
+    environment:
+      - TZ=${TZ}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - app-server
+    depends_on:
+      - postgres
+    links:
+      - postgres
+  postgres:
+    image: postgres:latest
+    container_name: ${DOCKER_PREFIX}-postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - TZ=${TZ}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - app-server
+volumes:
+  postgres-data:
+networks:
+  app-server:
