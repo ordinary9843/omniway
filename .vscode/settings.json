@@ -13,5 +13,8 @@
     "json"
   ],
   "eslint.format.enable": true,
-  "prettier.requireConfig": true
+  "prettier.requireConfig": true,
+  "cSpell.words": [
+    "omniway"
+  ]
 }
