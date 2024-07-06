@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { get, isEmpty } from 'lodash';
 
 import { verifyJwtToken } from '../../utils/jwt/util';
@@ -9,22 +10,31 @@ import { MiddlewareResult } from '../type';
 const validateAuthorizationMiddleware = [
   (req: Request, res: Response, next: NextFunction): MiddlewareResult => {
     const accessToken = (get(req.headers, 'authorization') || '').split(' ')[1];
-    if (!accessToken) {
-      return sendErrorResponse(res, 401, `No access token provided`);
-    }
 
     try {
+      if (!accessToken) {
+        throw new JsonWebTokenError('No access token provided');
+      }
+
       const decoded = verifyJwtToken(accessToken);
       if (isEmpty(decoded)) {
-        throw new Error('Access verification failed');
+        throw new JsonWebTokenError('Access verification failed');
       }
       req.user = decoded;
     } catch (error: any) {
-      return sendErrorResponse(
-        res,
-        401,
-        `Access verification failed (error=${error.message})`,
-      );
+      if (error.name === 'TokenExpiredError') {
+        return sendErrorResponse(
+          res,
+          202,
+          `Access token expired (error=${error.message})`,
+        );
+      } else {
+        return sendErrorResponse(
+          res,
+          404,
+          `Invalid access token (error=${error.message})`,
+        );
+      }
     }
 
     next();

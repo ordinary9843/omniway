@@ -20,7 +20,6 @@ userRoute.post(
   validateChangePasswordMiddleware,
   UserController.changePassword,
 );
-
 userRoute.post(
   '/validate-refresh-token',
   validateRefreshTokenMiddleware,
