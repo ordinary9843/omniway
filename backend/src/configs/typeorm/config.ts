@@ -1,5 +1,3 @@
-import '../config';
-
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 const config = {
@@ -9,7 +7,7 @@ const config = {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
   synchronize: false,
-  logging: true,
+  logging: false,
 };
 
 export const typeormConfig: DataSourceOptions = {

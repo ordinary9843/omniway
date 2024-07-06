@@ -3,6 +3,7 @@ import { Exclude, Expose } from 'class-transformer';
 export class RegisterBodyDto {
   username!: string;
   password!: string;
+  confirmPassword!: string;
 }
 
 export class RegisterUserDto {
@@ -29,4 +30,17 @@ export class RegisterUserDto {
 
   @Exclude()
   updatedAt!: Date;
+}
+
+export class LoginBodyDto {
+  username!: string;
+  password!: string;
+}
+
+export class LoginUserDto {
+  @Expose()
+  accessToken!: string;
+
+  @Expose()
+  refreshToken!: string;
 }

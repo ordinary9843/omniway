@@ -31,7 +31,7 @@ export class User1720228540108 implements MigrationInterface {
           {
             name: 'salt',
             type: 'char',
-            length: '32',
+            length: '16',
             isNullable: false,
           },
           {

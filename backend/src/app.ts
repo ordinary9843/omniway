@@ -1,3 +1,5 @@
+import './configs/config';
+import bodyParser from 'body-parser';
 import express from 'express';
 
 import { initializeDatabase } from './configs/di/config';
@@ -7,7 +9,7 @@ import logger from './utils/logger/util';
 const app = express();
 const port = 3000;
 
-app.use(express.json());
+app.use(bodyParser.json());
 app.use('/api/user', userRoute);
 
 app.listen(port, async () => {

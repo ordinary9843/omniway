@@ -24,6 +24,18 @@ class UserController {
       );
     }
   }
+
+  async login(req: Request, res: Response): Promise<SendResponseResult> {
+    try {
+      return sendSuccessResponse(res, 200, await UserService.login(req.body));
+    } catch (error: any) {
+      return sendErrorResponse(
+        res,
+        204,
+        `Failed to login (error=${error.message})`,
+      );
+    }
+  }
 }
 
 export default new UserController();

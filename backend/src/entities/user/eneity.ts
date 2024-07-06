@@ -13,7 +13,7 @@ export class UserEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   password!: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'char', length: 16, nullable: false })
   salt!: string;
 
   @Column({ type: 'bytea', nullable: true })

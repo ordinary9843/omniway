@@ -10,7 +10,6 @@ export function sendSuccessResponse(
   data: any,
 ): SendResponseResult {
   return res.status(statusCode).json({
-    statusCode,
     success: true,
     data,
   });
@@ -24,7 +23,6 @@ export function sendErrorResponse(
   logger.error(error);
 
   return res.status(statusCode).json({
-    statusCode,
     success: false,
     error,
   });

@@ -3,10 +3,21 @@ import { isEmpty } from 'lodash';
 
 import { userRepository } from '../../configs/di/config';
 
-import { generateSalt, hashPassword } from '../../utils/password/util';
+import { generateSalt, hashPassword } from '../../utils/crypto/util';
 
-import { RegisterBodyDto, RegisterUserDto } from './dto';
-import { DoesUsernameExistsResult, RegisterResult } from './type';
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from '../../utils/jwt/util';
+import { validatePassword } from '../../utils/validator/util';
+
+import { LoginBodyDto, RegisterBodyDto, RegisterUserDto } from './dto';
+import {
+  DoesUsernameExistsResult,
+  FindUserByUsernameResult,
+  LoginResult,
+  RegisterResult,
+} from './type';
 
 class UserService {
   async register(registerBodyDto: RegisterBodyDto): Promise<RegisterResult> {
@@ -31,10 +42,35 @@ class UserService {
     });
   }
 
+  async login(loginBodyDto: LoginBodyDto): Promise<LoginResult> {
+    const { username, password } = loginBodyDto;
+    const existUser = await this.findUserByUsernameResult(username);
+    if (isEmpty(existUser)) {
+      throw new Error('Username does not exist');
+    } else if (
+      !(await validatePassword(password, existUser.password, existUser.salt))
+    ) {
+      throw new Error('Password does not match');
+    }
+
+    const payload = { username: existUser.username };
+
+    return {
+      accessToken: generateAccessToken(payload),
+      refreshToken: generateRefreshToken(payload),
+    };
+  }
+
   async doesUsernameExists(
     username: string,
   ): Promise<DoesUsernameExistsResult> {
-    return !isEmpty(await userRepository.findOne({ where: { username } }));
+    return !isEmpty(await this.findUserByUsernameResult(username));
+  }
+
+  async findUserByUsernameResult(
+    username: string,
+  ): Promise<FindUserByUsernameResult> {
+    return await userRepository.findOne({ where: { username } });
   }
 }
 
