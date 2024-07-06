@@ -10,11 +10,12 @@ import logger from './utils/logger/util';
 
 const app = express();
 const port = 3000;
-
+const apiRouter = express.Router();
+apiRouter.use('/', dummyDataRoute);
+apiRouter.use('/user', userRoute);
 app.use(bodyParser.json());
 app.use(loggerMiddleware);
-app.use('/api', dummyDataRoute);
-app.use('/api/user', userRoute);
+app.use('/api', apiRouter);
 app.listen(port, async () => {
   try {
     await initializeDatabase();
