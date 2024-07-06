@@ -54,7 +54,7 @@ class UserService {
 
   async login(loginBodyDto: LoginBodyDto): Promise<LoginResult> {
     const { username, password } = loginBodyDto;
-    const loginUser = await this.findUserByUsernameResult(username);
+    const loginUser = await this.findUserByUsername(username);
     if (isEmpty(loginUser)) {
       throw new Error('Username does not exist');
     } else if (
@@ -76,7 +76,7 @@ class UserService {
     changePasswordBodyDto: ChangePasswordBodyDto,
   ): Promise<ChangePasswordResult> {
     const { identifier } = payload;
-    const loginUser = await this.findUserByUsernameResult(identifier);
+    const loginUser = await this.findUserByUsername(identifier);
     if (isEmpty(loginUser)) {
       throw new Error('User does not exist');
     }
@@ -113,10 +113,10 @@ class UserService {
   async doesUsernameExists(
     username: string,
   ): Promise<DoesUsernameExistsResult> {
-    return !isEmpty(await this.findUserByUsernameResult(username));
+    return !isEmpty(await this.findUserByUsername(username));
   }
 
-  async findUserByUsernameResult(
+  async findUserByUsername(
     username: string,
   ): Promise<FindUserByUsernameResult> {
     return await userRepository.findOne({ where: { username } });
