@@ -9,7 +9,7 @@ services:
     restart: always
     env_file:
       - .env
-    command: bash -c "npm run migration:run && npm run start"
+    command: bash -c "npm run migration:run && npm run test && npm run start"
     networks:
       - app-server
     depends_on:

@@ -23,4 +23,10 @@ Pertest for backend developer
 - **JWT:**
   - Secret: `2e1d9a8b018a7365f1c047ec89752a3841f3eaaea7e841b6a07fd1a5b35f8b2d`
 - Start setting up Docker: `docker-compose up -d`
-- Browsing or using Postman (Related settings are in `./postman`) to access `http://localhost/api/dummy-data`
+- Browsing to access `http://localhost/api/dummy-data`
+- Or using Postman (Related settings are in `./postman`, need import `environment.json` & `collection.json`)
+
+## Tests
+- Only write `services` unit tests
+- In the absence of `CICD`, currently execute unit tests in `docker-compose.yml`
+- Also possible to run npm run test on the local host

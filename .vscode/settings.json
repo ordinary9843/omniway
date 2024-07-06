@@ -15,6 +15,7 @@
   "eslint.format.enable": true,
   "prettier.requireConfig": true,
   "cSpell.words": [
+    "CICD",
     "omniway",
     "typeorm"
   ]
