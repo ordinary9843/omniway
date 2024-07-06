@@ -5,40 +5,40 @@ import {
   GenerateJwtTokenResult,
   GenerateRefreshTokenResult,
   GetJwtSecretResult,
-  Payload,
+  UserPayload,
   VerifyJwtTokenResult,
 } from './type';
 
-function getJwtSecret(): GetJwtSecretResult {
+const getJwtSecret = (): GetJwtSecretResult => {
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) {
     throw new Error('JWT_SECRET environment variable is not defined');
   }
 
   return jwtSecret;
-}
+};
 
-function generateJwtToken(
-  payload: Payload,
+const generateJwtToken = (
+  userPayload: UserPayload,
   expiresIn = '1h',
-): GenerateJwtTokenResult {
-  return jwt.sign(payload, getJwtSecret(), {
+): GenerateJwtTokenResult => {
+  return jwt.sign(userPayload, getJwtSecret(), {
     expiresIn,
   });
-}
+};
 
-export function generateAccessToken(
-  payload: Payload,
-): GenerateAccessTokenResult {
-  return generateJwtToken(payload, '2m');
-}
+export const generateAccessToken = (
+  userPayload: UserPayload,
+): GenerateAccessTokenResult => {
+  return generateJwtToken(userPayload, '2m');
+};
 
-export function generateRefreshToken(
-  payload: Payload,
-): GenerateRefreshTokenResult {
-  return generateJwtToken(payload, '5m');
-}
+export const generateRefreshToken = (
+  userPayload: UserPayload,
+): GenerateRefreshTokenResult => {
+  return generateJwtToken(userPayload, '5m');
+};
 
-export function verifyJwtToken(token: string): VerifyJwtTokenResult {
-  return jwt.verify(token, getJwtSecret()) as Payload;
-}
+export const verifyJwtToken = (token: string): VerifyJwtTokenResult => {
+  return jwt.verify(token, getJwtSecret()) as UserPayload;
+};

@@ -20,7 +20,7 @@ class UserController {
       return sendErrorResponse(
         res,
         400,
-        `Failed to register user (error=${error.message})`,
+        `Failed to register (error=${error.message})`,
       );
     }
   }
@@ -33,6 +33,23 @@ class UserController {
         res,
         204,
         `Failed to login (error=${error.message})`,
+      );
+    }
+  }
+
+  async changePassword(
+    req: Request,
+    res: Response,
+  ): Promise<SendResponseResult> {
+    try {
+      await UserService.changePassword(req.user, req.body);
+
+      return sendSuccessResponse(res, 200);
+    } catch (error: any) {
+      return sendErrorResponse(
+        res,
+        400,
+        `Failed to change password (error=${error.message})`,
       );
     }
   }

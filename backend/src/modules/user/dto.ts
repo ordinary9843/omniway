@@ -45,6 +45,12 @@ export class LoginUserDto {
   refreshToken!: string;
 }
 
+export class ChangePasswordBodyDto {
+  password!: string;
+  newPassword!: string;
+  confirmNewPassword!: string;
+}
+
 export class ValidateRefreshTokenBodyDto {
   refreshToken!: string;
 }

@@ -8,17 +8,18 @@ import { InitializeDatabaseResult, InitializeRepositoriesResult } from './type';
 
 let userRepository: Repository<UserEntity>;
 
-function initializeRepositories(
+const initializeRepositories = (
   dataSource: DataSource,
-): InitializeRepositoriesResult {
+): InitializeRepositoriesResult => {
   userRepository = dataSource.getRepository(UserEntity);
-}
+};
 
-export async function initializeDatabase(): Promise<InitializeDatabaseResult> {
-  await dataSource.initialize();
-  initializeRepositories(dataSource);
+export const initializeDatabase =
+  async (): Promise<InitializeDatabaseResult> => {
+    await dataSource.initialize();
+    initializeRepositories(dataSource);
 
-  return dataSource;
-}
+    return dataSource;
+  };
 
 export { userRepository };

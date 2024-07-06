@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { REFRESH_TOKEN_VALIDATION_RULES } from '../../utils/validator/constant';
+import { REFRESH_TOKEN_VALIDATION_RULES } from '../../modules/user/constant';
 import { validateRequest } from '../../utils/validator/util';
 
 import { MiddlewareResult } from '../type';

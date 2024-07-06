@@ -9,6 +9,8 @@ export type LoginResult = {
   refreshToken: string;
 };
 
+export type ChangePasswordResult = void;
+
 export type ValidateRefreshTokenResult = {
   accessToken: string;
 };

@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import {
   PASSWORD_VALIDATION_RULES,
   USERNAME_VALIDATION_RULES,
-} from '../../utils/validator/constant';
+} from '../../modules/user/constant';
 import { validateRequest } from '../../utils/validator/util';
 
 import { MiddlewareResult } from '../type';

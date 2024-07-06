@@ -5,6 +5,7 @@ import { userRepository } from '../../configs/di/config';
 
 import { generateSalt, hashPassword } from '../../utils/crypto/util';
 
+import { UserPayload } from '../../utils/jwt/type';
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -13,12 +14,14 @@ import {
 import { validatePassword } from '../../utils/validator/util';
 
 import {
+  ChangePasswordBodyDto,
   LoginBodyDto,
   RegisterBodyDto,
   RegisterUserDto,
   ValidateRefreshTokenBodyDto,
 } from './dto';
 import {
+  ChangePasswordResult,
   DoesUsernameExistsResult,
   FindUserByUsernameResult,
   LoginResult,
@@ -36,7 +39,7 @@ class UserService {
     const salt = generateSalt();
     const user = await userRepository.save({
       username,
-      password: await hashPassword(password, salt),
+      password: hashPassword(password, salt),
       salt,
       isActive: true,
     });
@@ -51,21 +54,44 @@ class UserService {
 
   async login(loginBodyDto: LoginBodyDto): Promise<LoginResult> {
     const { username, password } = loginBodyDto;
-    const existUser = await this.findUserByUsernameResult(username);
-    if (isEmpty(existUser)) {
+    const loginUser = await this.findUserByUsernameResult(username);
+    if (isEmpty(loginUser)) {
       throw new Error('Username does not exist');
     } else if (
-      !(await validatePassword(password, existUser.password, existUser.salt))
+      !(await validatePassword(password, loginUser.password, loginUser.salt))
     ) {
       throw new Error('Password does not match');
     }
 
-    const payload = { identifier: existUser.username };
+    const payload = { identifier: loginUser.username };
 
     return {
       accessToken: generateAccessToken(payload),
       refreshToken: generateRefreshToken(payload),
     };
+  }
+
+  async changePassword(
+    payload: UserPayload,
+    changePasswordBodyDto: ChangePasswordBodyDto,
+  ): Promise<ChangePasswordResult> {
+    const { identifier } = payload;
+    const loginUser = await this.findUserByUsernameResult(identifier);
+    if (isEmpty(loginUser)) {
+      throw new Error('User does not exist');
+    }
+
+    const { password, newPassword } = changePasswordBodyDto;
+    if (
+      !(await validatePassword(password, loginUser.password, loginUser.salt))
+    ) {
+      throw new Error('Origin password do not match');
+    }
+
+    const salt = generateSalt();
+    loginUser.password = hashPassword(newPassword, salt);
+    loginUser.salt = salt;
+    await userRepository.save(loginUser);
   }
 
   async validateRefreshToken(

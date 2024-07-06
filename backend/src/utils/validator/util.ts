@@ -8,22 +8,22 @@ import { sendErrorResponse } from '../send-response/util';
 
 import { ValidatePasswordResult, ValidateRequestResult } from './type';
 
-export function validateRequest(
+export const validateRequest = (
   req: Request,
   res: Response,
   next: NextFunction,
-): ValidateRequestResult {
+): ValidateRequestResult => {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
     return sendErrorResponse(res, 400, get(first(errors.array()), 'msg'));
   }
   next();
-}
+};
 
-export async function validatePassword(
+export const validatePassword = async (
   enteredPassword: string,
   originalPassword: string,
   salt: string,
-): Promise<ValidatePasswordResult> {
-  return (await hashPassword(enteredPassword, salt)) === originalPassword;
-}
+): Promise<ValidatePasswordResult> => {
+  return hashPassword(enteredPassword, salt) === originalPassword;
+};
