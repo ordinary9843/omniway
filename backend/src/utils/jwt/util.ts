@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 
+import { jwtConfig } from '../../configs/jwt/config';
+
 import {
   GenerateAccessTokenResult,
   GenerateJwtTokenResult,
@@ -10,12 +12,11 @@ import {
 } from './type';
 
 const getJwtSecret = (): GetJwtSecretResult => {
-  const jwtSecret = process.env.JWT_SECRET;
-  if (!jwtSecret) {
+  if (!jwtConfig.secret) {
     throw new Error('JWT_SECRET environment variable is not defined');
   }
 
-  return jwtSecret;
+  return jwtConfig.secret;
 };
 
 const generateJwtToken = (
