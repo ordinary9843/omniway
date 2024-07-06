@@ -35,13 +35,13 @@ export class User1720228540108 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'is_active',
-            type: 'boolean',
+            name: 'avatar',
+            type: 'bytea',
             isNullable: true,
           },
           {
-            name: 'avatar',
-            type: 'bytea',
+            name: 'is_active',
+            type: 'boolean',
             isNullable: true,
           },
           {

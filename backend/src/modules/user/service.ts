@@ -1,14 +1,16 @@
+import { plainToClass } from 'class-transformer';
 import { isEmpty } from 'lodash';
 
 import { userRepository } from '../../configs/di/config';
 
 import { generateSalt, hashPassword } from '../../utils/password/util';
 
-import { DoesUsernameExistsResult, RegisterDto, RegisterResult } from './type';
+import { RegisterBodyDto, RegisterUserDto } from './dto';
+import { DoesUsernameExistsResult, RegisterResult } from './type';
 
 class UserService {
-  async register(registerDto: RegisterDto): Promise<RegisterResult> {
-    const { username, password } = registerDto;
+  async register(registerBodyDto: RegisterBodyDto): Promise<RegisterResult> {
+    const { username, password } = registerBodyDto;
     if (await this.doesUsernameExists(username)) {
       throw new Error('Username already exists');
     }
@@ -24,7 +26,9 @@ class UserService {
       throw new Error('Create user failed');
     }
 
-    return user;
+    return plainToClass(RegisterUserDto, user, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async doesUsernameExists(
