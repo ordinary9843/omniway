@@ -27,6 +27,7 @@ Pertest for backend developer
 - Or using Postman (Related settings are in `./postman`, need import `environment.json` & `collection.json`)
 
 ## Tests
-- Only write `services` unit tests
-- In the absence of `CICD`, currently execute unit tests in `docker-compose.yml`
-- Also possible to run npm run test on the local host
+Only write `services` unit tests, In the absence of `CICD`, currently execute unit tests in `docker-compose.yml`, Also possible to run npm run test on the local host:
+
+- Enter the container: `docker exec -it omniway-backend bash`
+- Run tests: `npm run test`
