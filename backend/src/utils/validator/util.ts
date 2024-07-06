@@ -1,7 +1,7 @@
 import { NextFunction } from 'express';
 import { Request, Response } from 'express';
 import { Result, ValidationError, validationResult } from 'express-validator';
-import { map } from 'lodash';
+import { first, get } from 'lodash';
 
 import { sendErrorResponse } from '../send-response/util';
 
@@ -14,11 +14,7 @@ export function validateRequest(
 ): ValidateRequestResult {
   const errors: Result<ValidationError> = validationResult(req);
   if (!errors.isEmpty()) {
-    return sendErrorResponse(
-      res,
-      400,
-      map(errors.array(), (error) => error.msg),
-    );
+    return sendErrorResponse(res, 400, get(first(errors.array()), 'msg'));
   }
   next();
 }

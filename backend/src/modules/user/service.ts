@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 
-import { UserModel } from '../../models/user/model';
+import { userRepository } from '../../configs/di/config';
 
 import { generateSalt, hashPassword } from '../../utils/password/util';
 
@@ -14,19 +14,23 @@ class UserService {
     }
 
     const salt = generateSalt();
-
-    return await UserModel.create({
+    const user = await userRepository.save({
       username,
       password: await hashPassword(password, salt),
       salt,
       isActive: true,
     });
+    if (isEmpty(user)) {
+      throw new Error('Create user failed');
+    }
+
+    return user;
   }
 
   async doesUsernameExists(
     username: string,
   ): Promise<DoesUsernameExistsResult> {
-    return !isEmpty(await UserModel.findOne({ where: { username } }));
+    return !isEmpty(await userRepository.findOne({ where: { username } }));
   }
 }
 

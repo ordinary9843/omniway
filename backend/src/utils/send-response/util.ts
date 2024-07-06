@@ -1,7 +1,5 @@
 import { Response } from 'express';
 
-import { forEach } from 'lodash';
-
 import logger from '../logger/util';
 
 import { SendResponseResult } from './type';
@@ -21,13 +19,13 @@ export function sendSuccessResponse(
 export function sendErrorResponse(
   res: Response,
   statusCode: number,
-  errors: string[],
+  error: string,
 ): SendResponseResult {
-  forEach(errors, (error) => logger.error(error));
+  logger.error(error);
 
   return res.status(statusCode).json({
     statusCode,
     success: false,
-    errors,
+    error,
   });
 }

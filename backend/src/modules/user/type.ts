@@ -1,10 +1,10 @@
-import UserModel from '../../models/user/model';
+import { UserEntity } from '../../entities/user/eneity';
 
 export type RegisterDto = {
   username: string;
   password: string;
 };
 
-export type RegisterResult = UserModel;
+export type RegisterResult = UserEntity;
 
 export type DoesUsernameExistsResult = boolean;

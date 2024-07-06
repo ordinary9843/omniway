@@ -17,9 +17,11 @@ class UserController {
         await UserService.register(req.body),
       );
     } catch (error: any) {
-      return sendErrorResponse(res, 400, [
+      return sendErrorResponse(
+        res,
+        400,
         `Failed to register user (error=${error.message})`,
-      ]);
+      );
     }
   }
 }
