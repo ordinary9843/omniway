@@ -44,3 +44,7 @@ export class LoginUserDto {
   @Expose()
   refreshToken!: string;
 }
+
+export class ValidateRefreshTokenBodyDto {
+  refreshToken!: string;
+}

@@ -8,15 +8,22 @@ import { generateSalt, hashPassword } from '../../utils/crypto/util';
 import {
   generateAccessToken,
   generateRefreshToken,
+  verifyJwtToken,
 } from '../../utils/jwt/util';
 import { validatePassword } from '../../utils/validator/util';
 
-import { LoginBodyDto, RegisterBodyDto, RegisterUserDto } from './dto';
+import {
+  LoginBodyDto,
+  RegisterBodyDto,
+  RegisterUserDto,
+  ValidateRefreshTokenBodyDto,
+} from './dto';
 import {
   DoesUsernameExistsResult,
   FindUserByUsernameResult,
   LoginResult,
   RegisterResult,
+  ValidateRefreshTokenResult,
 } from './type';
 
 class UserService {
@@ -53,11 +60,27 @@ class UserService {
       throw new Error('Password does not match');
     }
 
-    const payload = { username: existUser.username };
+    const payload = { identifier: existUser.username };
 
     return {
       accessToken: generateAccessToken(payload),
       refreshToken: generateRefreshToken(payload),
+    };
+  }
+
+  async validateRefreshToken(
+    validateRefreshTokenBodyDto: ValidateRefreshTokenBodyDto,
+  ): Promise<ValidateRefreshTokenResult> {
+    const { refreshToken } = validateRefreshTokenBodyDto;
+    const { identifier = null } = verifyJwtToken(refreshToken);
+    if (!identifier) {
+      throw new Error('Refresh token verification failed');
+    }
+
+    return {
+      accessToken: generateAccessToken({
+        identifier,
+      }),
     };
   }
 

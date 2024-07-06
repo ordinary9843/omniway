@@ -36,6 +36,25 @@ class UserController {
       );
     }
   }
+
+  async validateRefreshToken(
+    req: Request,
+    res: Response,
+  ): Promise<SendResponseResult> {
+    try {
+      return sendSuccessResponse(
+        res,
+        200,
+        await UserService.validateRefreshToken(req.body),
+      );
+    } catch (error: any) {
+      return sendErrorResponse(
+        res,
+        204,
+        `Failed to refresh token (error=${error.message})`,
+      );
+    }
+  }
 }
 
 export default new UserController();

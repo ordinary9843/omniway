@@ -30,3 +30,9 @@ export const CONFIRM_PASSWORD_VALIDATION_RULES = body('confirmPassword')
   })
   .escape()
   .withMessage('Passwords do not match');
+
+export const REFRESH_TOKEN_VALIDATION_RULES = body('refreshToken')
+  .trim()
+  .notEmpty()
+  .escape()
+  .withMessage('Refresh token is invalid');

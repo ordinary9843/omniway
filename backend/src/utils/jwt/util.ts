@@ -6,6 +6,7 @@ import {
   GenerateRefreshTokenResult,
   GetJwtSecretResult,
   Payload,
+  VerifyJwtTokenResult,
 } from './type';
 
 function getJwtSecret(): GetJwtSecretResult {
@@ -36,4 +37,8 @@ export function generateRefreshToken(
   payload: Payload,
 ): GenerateRefreshTokenResult {
   return generateJwtToken(payload, '5m');
+}
+
+export function verifyJwtToken(token: string): VerifyJwtTokenResult {
+  return jwt.verify(token, getJwtSecret()) as Payload;
 }

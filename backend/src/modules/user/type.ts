@@ -9,6 +9,10 @@ export type LoginResult = {
   refreshToken: string;
 };
 
+export type ValidateRefreshTokenResult = {
+  accessToken: string;
+};
+
 export type DoesUsernameExistsResult = boolean;
 
 export type FindUserByUsernameResult = UserEntity | null;
