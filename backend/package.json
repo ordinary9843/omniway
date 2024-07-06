@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec ts-node ./src/app.ts",
+    "dev": "nodemon --exec ts-node ./src/app.ts",
+    "build": "tsc",
+    "start": "ts-node ./dist/app.js",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "migration:run": "npm run typeorm -- -d ./src/configs/typeorm/config.ts migration:run",
     "migration:generate": "npm run typeorm -- -d ./src/configs/typeorm/config.ts migration:generate",

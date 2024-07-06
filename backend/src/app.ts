@@ -1,5 +1,9 @@
-import './configs/config';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+dotenv.config({
+  path: __dirname + '../../.env',
+});
+
 import express from 'express';
 
 import { initializeDatabase } from './configs/di/config';
@@ -22,7 +26,7 @@ app.listen(port, async () => {
 
     logger.info(`Server is running on http://localhost:${port}`);
   } catch (error: any) {
-    logger.error(error);
+    logger.error(error.message);
 
     process.exit(1);
   }

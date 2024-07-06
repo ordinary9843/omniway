@@ -1,3 +1,4 @@
+import '../config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 const config = {
@@ -18,6 +19,6 @@ export const typeormConfig: DataSourceOptions = {
 
 export default new DataSource({
   ...typeormConfig,
-  entities: ['src/entities/**/*.ts'],
-  migrations: ['src/migrations/*{.ts,.js}'],
+  entities: [__dirname + '/../../entities/**/*{.ts,.js}'],
+  migrations: [__dirname + '/../../migrations/*{.ts,.js}'],
 });
