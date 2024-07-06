@@ -1,4 +1,4 @@
-import { UserEntity } from '../../entities/user/eneity';
+import { UserEntity } from '../../entities/user/entity';
 
 import { RegisterUserDto } from './dto';
 

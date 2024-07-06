@@ -1,6 +1,6 @@
 import { DataSource, Repository } from 'typeorm';
 
-import { UserEntity } from '../../entities/user/eneity';
+import { UserEntity } from '../../entities/user/entity';
 
 import dataSource from '../typeorm/config';
 

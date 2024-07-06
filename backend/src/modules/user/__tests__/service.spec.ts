@@ -1,7 +1,7 @@
 import { plainToClass } from 'class-transformer';
 
 import { userRepository } from '../../../configs/di/config';
-import { UserEntity } from '../../../entities/user/eneity';
+import { UserEntity } from '../../../entities/user/entity';
 import { generateAccessToken, verifyJwtToken } from '../../../utils/jwt/util';
 import { validatePassword } from '../../../utils/validator/util';
 import { RegisterUserDto } from '../dto';
