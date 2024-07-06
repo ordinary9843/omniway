@@ -20,3 +20,5 @@ Pertest for backend developer
   - Database: `omniway`
 - **JWT:**
   - Secret: `2e1d9a8b018a7365f1c047ec89752a3841f3eaaea7e841b6a07fd1a5b35f8b2d`
+- Start setting up Docker: `docker-compose up -d`
+- Browsing or using Postman (Related settings are in `./postman`) to access `http://localhost:3000/api/dummy-data`

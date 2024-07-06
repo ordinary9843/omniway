@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "a1e68040-c454-47b3-9069-7db02ba30ce9",
+		"name": "Owniway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5209742"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"jerry.chen\",\r\n    \"password\": \"Omniway@20240705\",\r\n    \"confirmPassword\": \"Omniway@20240705\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{apiPrefix}}/user/register",
+							"host": [
+								"{{host}}{{apiPrefix}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"if (pm.response.code === 200) {\r",
+									"    const { accessToken, refreshToken } = response.data;\r",
+									"    pm.environment.set(\"accessToken\", accessToken);\r",
+									"    pm.environment.set(\"refreshToken\", refreshToken);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"jerry.chen\",\r\n    \"password\": \"Omniway@20240705\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{apiPrefix}}/user/login",
+							"host": [
+								"{{host}}{{apiPrefix}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change-password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"Omniway@20240705\",\r\n    \"newPassword\": \"Omniway@20240705\",\r\n    \"confirmNewPassword\": \"Omniway@20240705\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{apiPrefix}}/user/change-password",
+							"host": [
+								"{{host}}{{apiPrefix}}"
+							],
+							"path": [
+								"user",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate-refresh-token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"if (pm.response.code === 200) {\r",
+									"    const { accessToken } = response.data;\r",
+									"    pm.environment.set(\"accessToken\", accessToken);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"{{refreshToken}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}{{apiPrefix}}/user/validate-refresh-token",
+							"host": [
+								"{{host}}{{apiPrefix}}"
+							],
+							"path": [
+								"user",
+								"validate-refresh-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dummy-data",
+			"item": [
+				{
+					"name": "dummy-data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"if (pm.response.code === 200) {\r",
+									"    const { accessToken, refreshToken } = response.data;\r",
+									"    pm.environment.set(\"accessToken\", accessToken);\r",
+									"    pm.environment.set(\"refreshToken\", refreshToken);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{apiPrefix}}/dummy-data",
+							"host": [
+								"{{host}}{{apiPrefix}}"
+							],
+							"path": [
+								"dummy-data"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
