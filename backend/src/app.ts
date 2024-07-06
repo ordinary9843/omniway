@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 
 import { initializeDatabase } from './configs/di/config';
+import loggerMiddleware from './middlewares/logger/middleware';
 import userRoute from './routes/user/route';
 import logger from './utils/logger/util';
 
@@ -10,8 +11,8 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+app.use(loggerMiddleware);
 app.use('/api/user', userRoute);
-
 app.listen(port, async () => {
   try {
     await initializeDatabase();
