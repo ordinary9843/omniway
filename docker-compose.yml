@@ -1,10 +1,8 @@
-version: "3"
 services:
   backend:
     build:
       context: ./
       dockerfile: ./docker/backend/Dockerfile
-    image: ${DOCKER_PREFIX}-backend
     container_name: ${DOCKER_PREFIX}-backend
     ports:
       - 3000:3000
